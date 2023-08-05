@@ -3,17 +3,10 @@ import { EvilIcons } from "@expo/vector-icons";
 import Title from "../components/Title";
 import Input from "../components/Input";
 import Button from "../components/Button";
-import { SharedStartScreenWrap } from "../components/SharedStartScreenWrap";
-import { useState } from "react";
 
-export default function RegistrationScreen() {
-  const [isKeyboardShown, setIsKeyboardShown] = useState(false);
-
+export default function RegistrationScreen({ setIsKeyboardShown }) {
   return (
-    <SharedStartScreenWrap
-      isKeyboardShown={isKeyboardShown}
-      setIsKeyboardShown={setIsKeyboardShown}
-    >
+    <>
       <View style={styles.avatarWrap}>
         <Image style={styles.avatar} source={""} />
         <TouchableOpacity style={styles.plus} activeOpacity={0.8}>
@@ -35,7 +28,7 @@ export default function RegistrationScreen() {
       </View>
       <Button btnText="Зареєстуватися" />
       <Text style={styles.navText}>Вже є акаунт? Увійти</Text>
-    </SharedStartScreenWrap>
+    </>
   );
 }
 

@@ -7,13 +7,13 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from "react-native";
+import LoginScreen from "./LoginScreen";
+import RegistrationScreen from "./RegistrationScreen";
+import { useState } from "react";
 
-export const SharedStartScreenWrap = ({
-  children,
-  wrapStyle,
-  isKeyboardShown,
-  setIsKeyboardShown,
-}) => {
+export const SharedStartScreenWrap = ({ isLogin }) => {
+  const [isKeyboardShown, setIsKeyboardShown] = useState(false);
+
   const hideKeyboard = () => {
     Keyboard.dismiss();
     setIsKeyboardShown(false);
@@ -33,11 +33,15 @@ export const SharedStartScreenWrap = ({
             <View
               style={{
                 ...styles.content,
-                ...wrapStyle,
-                paddingBottom: isKeyboardShown ? 160 : 45,
+                paddingTop: isLogin ? 32 : 92,
+                paddingBottom: isKeyboardShown ? 160 : isLogin ? 111 : 45,
               }}
             >
-              {children}
+              {isLogin ? (
+                <LoginScreen setIsKeyboardShown={setIsKeyboardShown} />
+              ) : (
+                <RegistrationScreen setIsKeyboardShown={setIsKeyboardShown} />
+              )}
             </View>
           </TouchableWithoutFeedback>
         </KeyboardAvoidingView>
