@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { StyleSheet, View, TextInput, Text } from "react-native";
 
-export default Input = ({ placeholder, isPassword = false }) => {
+export default Input = ({
+  placeholder,
+  isPassword = false,
+  setIsKeyboardShown,
+}) => {
   const [isSecuredPassword, setIsSecuredPassword] = useState(true);
   const [isFocused, setIsFocused] = useState(false);
 
@@ -9,8 +13,13 @@ export default Input = ({ placeholder, isPassword = false }) => {
     setIsSecuredPassword((prevState) => !prevState);
   };
 
-  const toggleFocus = () => {
-    setIsFocused((prevState) => !prevState);
+  const setFocus = () => {
+    setIsFocused(true);
+    setIsKeyboardShown(true);
+  };
+
+  const unsetFocus = () => {
+    setIsFocused(false);
   };
 
   return (
@@ -18,14 +27,15 @@ export default Input = ({ placeholder, isPassword = false }) => {
       style={{
         ...styles.input,
         borderColor: isFocused ? "#FF6C00" : "#E8E8E8",
+        backgroundColor: isFocused ? "transparent" : "#F6F6F6",
         marginBottom: isPassword ? 0 : "",
       }}
     >
       <TextInput
         style={styles.inputText}
         secureTextEntry={isPassword ? isSecuredPassword : false}
-        onFocus={() => toggleFocus()}
-        onBlur={() => toggleFocus()}
+        onFocus={() => setFocus()}
+        onBlur={() => unsetFocus()}
         placeholder={placeholder}
       ></TextInput>
       {isPassword && (

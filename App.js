@@ -1,4 +1,5 @@
 import { useFonts } from "expo-font";
+import RegistrationScreen from "./Screens/RegistrationScreen";
 import LoginScreen from "./Screens/LoginScreen";
 
 export default function App() {

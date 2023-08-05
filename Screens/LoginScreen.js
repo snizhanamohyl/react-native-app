@@ -3,14 +3,30 @@ import Title from "../components/Title";
 import Input from "../components/Input";
 import Button from "../components/Button";
 import { SharedStartScreenWrap } from "../components/SharedStartScreenWrap";
+import { useState } from "react";
 
 export default function LoginScreen() {
+  const [isKeyboardShown, setIsKeyboardShown] = useState(false);
+
   return (
-    <SharedStartScreenWrap wrapStyle={styles.loginWrap}>
+    <SharedStartScreenWrap
+      wrapStyle={styles.loginWrap}
+      isKeyboardShown={isKeyboardShown}
+      setIsKeyboardShown={setIsKeyboardShown}
+    >
       <Title title="Увійти" />
       <View style={styles.inputsWrap}>
-        <Input placeholder="Адреса електронної пошти" />
-        <Input placeholder="Пароль" isPassword />
+        <Input
+          placeholder="Адреса електронної пошти"
+          isKeyboardShown={isKeyboardShown}
+          setIsKeyboardShown={setIsKeyboardShown}
+        />
+        <Input
+          placeholder="Пароль"
+          isPassword
+          isKeyboardShown={isKeyboardShown}
+          setIsKeyboardShown={setIsKeyboardShown}
+        />
       </View>
       <Button btnText="Увійти" />
       <Text style={styles.navText}>

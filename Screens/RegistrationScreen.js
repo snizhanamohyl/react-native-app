@@ -4,10 +4,16 @@ import Title from "../components/Title";
 import Input from "../components/Input";
 import Button from "../components/Button";
 import { SharedStartScreenWrap } from "../components/SharedStartScreenWrap";
+import { useState } from "react";
 
 export default function RegistrationScreen() {
+  const [isKeyboardShown, setIsKeyboardShown] = useState(false);
+
   return (
-    <SharedStartScreenWrap>
+    <SharedStartScreenWrap
+      isKeyboardShown={isKeyboardShown}
+      setIsKeyboardShown={setIsKeyboardShown}
+    >
       <View style={styles.avatarWrap}>
         <Image style={styles.avatar} source={""} />
         <TouchableOpacity style={styles.plus} activeOpacity={0.8}>
@@ -16,9 +22,16 @@ export default function RegistrationScreen() {
       </View>
       <Title title="Реєстрація" />
       <View style={styles.inputsWrap}>
-        <Input placeholder="Логін" />
-        <Input placeholder="Адреса електронної пошти" />
-        <Input placeholder="Пароль" isPassword />
+        <Input placeholder="Логін" setIsKeyboardShown={setIsKeyboardShown} />
+        <Input
+          placeholder="Адреса електронної пошти"
+          setIsKeyboardShown={setIsKeyboardShown}
+        />
+        <Input
+          placeholder="Пароль"
+          isPassword
+          setIsKeyboardShown={setIsKeyboardShown}
+        />
       </View>
       <Button btnText="Зареєстуватися" />
       <Text style={styles.navText}>Вже є акаунт? Увійти</Text>
