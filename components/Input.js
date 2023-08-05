@@ -5,6 +5,8 @@ export default Input = ({
   placeholder,
   isPassword = false,
   setIsKeyboardShown,
+  value,
+  onChangeText,
 }) => {
   const [isSecuredPassword, setIsSecuredPassword] = useState(true);
   const [isFocused, setIsFocused] = useState(false);
@@ -37,6 +39,8 @@ export default Input = ({
         onFocus={() => setFocus()}
         onBlur={() => unsetFocus()}
         placeholder={placeholder}
+        value={value}
+        onChangeText={onChangeText}
       ></TextInput>
       {isPassword && (
         <Text style={styles.show} onPress={togglePasswordVisibility}>
