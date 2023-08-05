@@ -7,13 +7,16 @@ import PostsScreen from "../screens/PostsScreen";
 import CreatePostsScreen from "../screens/CreatePostsScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import { Feather } from "@expo/vector-icons";
-import TabBar from "../components/TabBar";
-import Header from "../components/Header";
+import TabBar from "./TabBar";
+import Header from "./Header";
+import { useState } from "react";
 
 const AuthStack = createStackNavigator();
 const MainTab = createBottomTabNavigator();
 
-export default defineRoutes = (isAuth = false) => {
+export default Routes = () => {
+  const [isAuth, setIsAuth] = useState(false);
+
   if (!isAuth) {
     return (
       <AuthStack.Navigator
@@ -22,9 +25,11 @@ export default defineRoutes = (isAuth = false) => {
           headerShown: false,
         }}
       >
-        <AuthStack.Screen name="Register" component={SharedStartScreenWrap} />
+        <AuthStack.Screen name="Register">
+          {() => <SharedStartScreenWrap setIsAuth={setIsAuth} />}
+        </AuthStack.Screen>
         <AuthStack.Screen name="Login">
-          {() => <SharedStartScreenWrap isLogin />}
+          {() => <SharedStartScreenWrap isLogin setIsAuth={setIsAuth} />}
         </AuthStack.Screen>
       </AuthStack.Navigator>
     );
@@ -44,7 +49,7 @@ export default defineRoutes = (isAuth = false) => {
         options={{
           title: "Публікації",
           header: ({ route, options }) => (
-            <Header route={route} options={options} />
+            <Header route={route} options={options} setIsAuth={setIsAuth} />
           ),
         }}
         tabBarButton={() => (

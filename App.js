@@ -2,7 +2,7 @@ import "react-native-gesture-handler";
 import { useFonts } from "expo-font";
 import { NavigationContainer } from "@react-navigation/native";
 
-import defineRoutes from "./services/defineRoutes";
+import Routes from "./components/Routes";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -15,5 +15,9 @@ export default function App() {
     return null;
   }
 
-  return <NavigationContainer>{defineRoutes(true)}</NavigationContainer>;
+  return (
+    <NavigationContainer>
+      <Routes />
+    </NavigationContainer>
+  );
 }

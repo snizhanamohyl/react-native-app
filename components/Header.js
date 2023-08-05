@@ -2,8 +2,12 @@ import { Feather } from "@expo/vector-icons";
 import { getHeaderTitle } from "@react-navigation/elements";
 import { StyleSheet, Text, View } from "react-native";
 
-export default Header = ({ navigation, route, options }) => {
+export default Header = ({ navigation, route, options, setIsAuth }) => {
   const title = getHeaderTitle(options, route.name);
+
+  const logout = () => {
+    setIsAuth(false);
+  };
 
   return (
     <View style={styles.wrap}>
@@ -19,7 +23,13 @@ export default Header = ({ navigation, route, options }) => {
         {title}
       </Text>
       {route.name === "Posts" && (
-        <Feather style={styles.btn} name="log-out" size={24} color="#BDBDBD" />
+        <Feather
+          style={styles.btn}
+          name="log-out"
+          size={24}
+          color="#BDBDBD"
+          onPress={logout}
+        />
       )}
     </View>
   );

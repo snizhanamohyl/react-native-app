@@ -5,7 +5,7 @@ import Button from "../components/Button";
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 
-export default function LoginScreen({ setIsKeyboardShown }) {
+export default function LoginScreen({ setIsKeyboardShown, setIsAuth }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigation = useNavigation();
@@ -13,6 +13,7 @@ export default function LoginScreen({ setIsKeyboardShown }) {
   const onSubmit = () => {
     const userData = { email, password };
     console.log("userLoginData", userData);
+    setIsAuth(true);
   };
 
   return (
