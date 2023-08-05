@@ -1,5 +1,8 @@
+import "react-native-gesture-handler";
 import { useFonts } from "expo-font";
-import { SharedStartScreenWrap } from "./Screens/SharedStartScreenWrap";
+import { NavigationContainer } from "@react-navigation/native";
+
+import defineRoutes from "./services/defineRoutes";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -12,5 +15,5 @@ export default function App() {
     return null;
   }
 
-  return <SharedStartScreenWrap />;
+  return <NavigationContainer>{defineRoutes(true)}</NavigationContainer>;
 }

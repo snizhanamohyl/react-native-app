@@ -1,5 +1,11 @@
 import { useState } from "react";
-import { StyleSheet, View, TextInput, Text } from "react-native";
+import {
+  StyleSheet,
+  View,
+  TextInput,
+  Text,
+  TouchableOpacity,
+} from "react-native";
 
 export default Input = ({
   placeholder,
@@ -43,9 +49,14 @@ export default Input = ({
         onChangeText={onChangeText}
       ></TextInput>
       {isPassword && (
-        <Text style={styles.show} onPress={togglePasswordVisibility}>
-          {isSecuredPassword ? "Показати" : "Сховати"}
-        </Text>
+        <TouchableOpacity
+          onPress={togglePasswordVisibility}
+          activeOpacity={0.8}
+        >
+          <Text style={styles.show}>
+            {isSecuredPassword ? "Показати" : "Сховати"}
+          </Text>
+        </TouchableOpacity>
       )}
     </View>
   );

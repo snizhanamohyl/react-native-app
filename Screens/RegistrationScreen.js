@@ -4,11 +4,14 @@ import Title from "../components/Title";
 import Input from "../components/Input";
 import Button from "../components/Button";
 import { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 
 export default function RegistrationScreen({ setIsKeyboardShown }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const navigation = useNavigation();
 
   const onSubmit = () => {
     const userData = { name, email, password };
@@ -43,7 +46,12 @@ export default function RegistrationScreen({ setIsKeyboardShown }) {
         />
       </View>
       <Button btnText="Зареєстуватися" onPress={onSubmit} />
-      <Text style={styles.navText}>Вже є акаунт? Увійти</Text>
+      <Text style={styles.navText}>
+        Вже є акаунт?{" "}
+        <Text style={styles.link} onPress={() => navigation.navigate("Login")}>
+          Увійти
+        </Text>
+      </Text>
     </>
   );
 }
@@ -74,5 +82,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 16,
     marginTop: 16,
+  },
+  link: {
+    textDecorationLine: "underline",
   },
 });

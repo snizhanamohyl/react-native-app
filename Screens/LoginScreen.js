@@ -3,10 +3,12 @@ import Title from "../components/Title";
 import Input from "../components/Input";
 import Button from "../components/Button";
 import { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 
 export default function LoginScreen({ setIsKeyboardShown }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigation = useNavigation();
 
   const onSubmit = () => {
     const userData = { email, password };
@@ -33,7 +35,13 @@ export default function LoginScreen({ setIsKeyboardShown }) {
       </View>
       <Button btnText="Увійти" onPress={onSubmit} />
       <Text style={styles.navText}>
-        Немає акаунту? <Text style={styles.link}>Зареєструватися</Text>
+        Немає акаунту?{" "}
+        <Text
+          style={styles.link}
+          onPress={() => navigation.navigate("Register")}
+        >
+          Зареєструватися
+        </Text>
       </Text>
     </>
   );
