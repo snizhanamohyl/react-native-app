@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { EvilIcons } from "@expo/vector-icons";
 import Title from "../components/Title";
-import Input from "../components/Input";
+import StartInput from "../components/StartInput";
 import Button from "../components/Button";
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
@@ -29,17 +29,17 @@ export default function RegistrationScreen({ setIsKeyboardShown, setIsAuth }) {
       </View>
       <Title title="Реєстрація" />
       <View style={styles.inputsWrap}>
-        <Input
+        <StartInput
           placeholder="Логін"
           setIsKeyboardShown={setIsKeyboardShown}
           onChangeText={setName}
         />
-        <Input
+        <StartInput
           placeholder="Адреса електронної пошти"
           setIsKeyboardShown={setIsKeyboardShown}
           onChangeText={setEmail}
         />
-        <Input
+        <StartInput
           placeholder="Пароль"
           isPassword
           setIsKeyboardShown={setIsKeyboardShown}

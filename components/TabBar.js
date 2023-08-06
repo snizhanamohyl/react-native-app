@@ -1,12 +1,18 @@
 import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, TouchableOpacity, StyleSheet } from "react-native";
 
 export default function TabBar({}) {
   const navigation = useNavigation();
+  const isShown = navigation.getCurrentRoute().name !== "Create";
 
   return (
-    <View style={styles.wrap}>
+    <View
+      style={{
+        ...styles.wrap,
+        display: isShown ? "flex" : "none",
+      }}
+    >
       <TouchableOpacity
         style={styles.navItem}
         activeOpacity={0.8}

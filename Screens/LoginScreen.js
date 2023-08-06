@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 import Title from "../components/Title";
-import Input from "../components/Input";
+import StartInput from "../components/StartInput";
 import Button from "../components/Button";
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
@@ -20,13 +20,13 @@ export default function LoginScreen({ setIsKeyboardShown, setIsAuth }) {
     <>
       <Title title="Увійти" />
       <View style={styles.inputsWrap}>
-        <Input
+        <StartInput
           placeholder="Адреса електронної пошти"
           setIsKeyboardShown={setIsKeyboardShown}
           value={email}
           onChangeText={setEmail}
         />
-        <Input
+        <StartInput
           placeholder="Пароль"
           isPassword
           setIsKeyboardShown={setIsKeyboardShown}

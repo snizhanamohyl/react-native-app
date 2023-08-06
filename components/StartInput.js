@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-export default Input = ({
+export default StartInput = ({
   placeholder,
   isPassword = false,
   setIsKeyboardShown,

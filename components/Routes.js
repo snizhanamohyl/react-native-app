@@ -15,7 +15,7 @@ const AuthStack = createStackNavigator();
 const MainTab = createBottomTabNavigator();
 
 export default Routes = () => {
-  const [isAuth, setIsAuth] = useState(false);
+  const [isAuth, setIsAuth] = useState(true);
 
   if (!isAuth) {
     return (

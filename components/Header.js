@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
     paddingTop: 54,
     borderBottomWidth: 0.5,
     borderBottomColor: "rgba(0, 0, 0, 0.3)",
+    backgroundColor: "#ffffff",
   },
   title: {
     color: "#212121",
