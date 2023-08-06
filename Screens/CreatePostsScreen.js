@@ -1,61 +1,83 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  TextInput,
-} from "react-native";
+import { Feather } from "@expo/vector-icons";
+import * as Location from "expo-location";
+import { useEffect, useState } from "react";
+import { StyleSheet, Text, View, TextInput } from "react-native";
+
 import Button from "../components/Button";
-import { Camera } from "expo-camera";
-import { Feather, MaterialIcons } from "@expo/vector-icons";
-import { useState } from "react";
+import CameraWrap from "../components/CameraWrap";
+import { useNavigation } from "@react-navigation/native";
 
 export default CreatePostsScreen = () => {
-  const [isName, setIsName] = useState(false);
+  const [hasLocPermission, setHasLocPermission] = useState(null);
+
+  const [photo, setPhoto] = useState("");
   const [name, setName] = useState("");
-  const [location, setLocation] = useState("");
+  const [photoLocation, setPhotoLocation] = useState("");
 
-  const takePhoto = () => {
-    console.log("takePhoto");
-  };
+  const navigation = useNavigation();
 
-  const onNameChange = (value) => {
-    if (!value) {
-      setIsName(false);
-    } else if (value && !isName) {
-      setIsName(true);
+  useEffect(() => {
+    (async () => {
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      console.log("🚀 ~ file: CreatePostsScreen.js:20 ~ status:", status);
+      setHasLocPermission(status === "granted");
+    })();
+  }, []);
+
+  const checkIfDisabled = () => {
+    if (photo && name && photoLocation) {
+      return false;
     }
 
-    setName(value);
+    return true;
   };
 
-  const onLocationChange = (value) => {
-    setLocation(value);
+  const resetState = () => {
+    setPhoto("");
+    setName("");
+    setPhotoLocation("");
+  };
+
+  const onPost = async () => {
+    // if (hasLocPermission) {
+    const location = await Location.getCurrentPositionAsync({});
+
+    const coordinates = {
+      latitude: location.coords.latitude,
+      longitude: location.coords.longitude,
+    };
+
+    const postData = {
+      name,
+      photoURI: photo,
+      location: photoLocation,
+      coordinates,
+    };
+
+    navigation.navigate("Posts", postData);
+
+    resetState();
+    // }
   };
 
   return (
     <View style={styles.container}>
-      <View style={styles.camera}>
-        <TouchableOpacity
-          style={styles.cameraBtn}
-          onPress={takePhoto}
-          activeOpacity={0.8}
-        >
-          <MaterialIcons name="photo-camera" size={24} color="#BDBDBD" />
-        </TouchableOpacity>
-      </View>
+      <CameraWrap
+        photo={photo}
+        setPhoto={setPhoto}
+        checkIfDisabled={checkIfDisabled}
+      />
       <Text style={styles.text}>Завантажте фото</Text>
       <View style={styles.inputWrap}>
         <View style={styles.input}>
           <TextInput
             style={{
               ...styles.inputText,
-              fontFamily: isName ? "Roboto-Medium" : "Roboto-Regular",
+              fontFamily: name ? "Roboto-Medium" : "Roboto-Regular",
             }}
             placeholder="Назва..."
-            onChange={() => setIsName(true)}
             value={name}
-            onChangeText={onNameChange}
+            onChangeText={setName}
           />
         </View>
         <View style={{ ...styles.input, marginBottom: 16 }}>
@@ -63,12 +85,16 @@ export default CreatePostsScreen = () => {
           <TextInput
             style={styles.inputText}
             placeholder="Місцевість..."
-            value={location}
-            onChangeText={onLocationChange}
+            value={photoLocation}
+            onChangeText={setPhotoLocation}
           />
         </View>
       </View>
-      <Button btnText="Опубліковати" isDisabled />
+      <Button
+        btnText="Опубліковати"
+        onPress={onPost}
+        isDisabled={checkIfDisabled()}
+      />
     </View>
   );
 };
@@ -82,6 +108,7 @@ const styles = StyleSheet.create({
   },
   camera: {
     height: 240,
+    width: "100%",
     borderRadius: 8,
     backgroundColor: "#F6F6F6",
     borderWidth: 1,
@@ -89,6 +116,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginBottom: 8,
+    // backgroundSize: "cover",
   },
   cameraBtn: {
     width: 60,

@@ -1,9 +1,12 @@
 import { Feather } from "@expo/vector-icons";
 import { getHeaderTitle } from "@react-navigation/elements";
+import { useNavigation } from "@react-navigation/native";
 import { StyleSheet, Text, View } from "react-native";
 
-export default Header = ({ navigation, route, options, setIsAuth }) => {
+export default Header = ({ route, options, setIsAuth }) => {
   const title = getHeaderTitle(options, route.name);
+
+  const navigation = useNavigation();
 
   const logout = () => {
     setIsAuth(false);
@@ -11,12 +14,13 @@ export default Header = ({ navigation, route, options, setIsAuth }) => {
 
   return (
     <View style={styles.wrap}>
-      {route.name === "Create" && (
+      {route.name !== "Posts" && (
         <Feather
           style={styles.backBtn}
           name="arrow-left"
           size={24}
           color="#212121"
+          onPress={() => navigation.navigate("Posts")}
         />
       )}
       <Text title={title} style={styles.title}>

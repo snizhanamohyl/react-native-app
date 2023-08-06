@@ -1,15 +1,13 @@
+import { useState } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import { SharedStartScreenWrap } from "../screens/SharedStartScreenWrap";
-import HomeScreen from "../screens/Home";
-import PostsScreen from "../screens/PostsScreen";
 import CreatePostsScreen from "../screens/CreatePostsScreen";
+import Home from "../screens/Home";
 import ProfileScreen from "../screens/ProfileScreen";
-import { Feather } from "@expo/vector-icons";
 import TabBar from "./TabBar";
 import Header from "./Header";
-import { useState } from "react";
 
 const AuthStack = createStackNavigator();
 const MainTab = createBottomTabNavigator();
@@ -42,22 +40,9 @@ export default Routes = () => {
       }}
       tabBar={() => <TabBar />}
     >
-      {/* <MainTab.Screen name="Home" component={Home} /> */}
-      <MainTab.Screen
-        name="Posts"
-        component={PostsScreen}
-        options={{
-          title: "Публікації",
-          header: ({ route, options }) => (
-            <Header route={route} options={options} setIsAuth={setIsAuth} />
-          ),
-        }}
-        tabBarButton={() => (
-          <TouchableOpacity>
-            <Feather name="log-out" size={24} color="#BDBDBD" />
-          </TouchableOpacity>
-        )}
-      />
+      <MainTab.Screen name="Home" options={{ headerShown: false }}>
+        {() => <Home setIsAuth={setIsAuth} />}
+      </MainTab.Screen>
       <MainTab.Screen
         name="Create"
         component={CreatePostsScreen}
