@@ -4,7 +4,9 @@ import { View, TouchableOpacity, StyleSheet } from "react-native";
 
 export default function TabBar({}) {
   const navigation = useNavigation();
-  const isShown = navigation.getCurrentRoute()?.name !== "Create";
+  const routeName = navigation.getCurrentRoute()?.name;
+  const isShown =
+    routeName !== "Create" && routeName !== "Map" && routeName !== "Comments";
 
   return (
     <View

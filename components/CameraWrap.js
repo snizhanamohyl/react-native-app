@@ -7,6 +7,7 @@ import * as MediaLibrary from "expo-media-library";
 export default CameraWrap = ({ photo, setPhoto, checkIfDisabled }) => {
   const [hasPermission, setHasPermission] = useState(null);
   const [cameraRef, setCameraRef] = useState(null);
+  const [isCameraReady, setIsCameraReady] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -51,21 +52,31 @@ export default CameraWrap = ({ photo, setPhoto, checkIfDisabled }) => {
       <>
         <View style={styles.cameraWarp}>
           {photo && <Image style={styles.photo} source={{ uri: photo }} />}
-          {!photo && <Camera style={styles.camera} ref={setCameraRef}></Camera>}
-          <TouchableOpacity
-            style={{
-              ...styles.cameraBtn,
-              backgroundColor: photo ? "rgba(255, 255, 255, 0.30)" : "#ffffff",
-            }}
-            onPress={photo ? unsetPhoto : takePhoto}
-            activeOpacity={0.8}
-          >
-            <MaterialIcons
-              name="photo-camera"
-              size={24}
-              color={photo ? "#ffffff" : "#BDBDBD"}
-            />
-          </TouchableOpacity>
+          {!photo && (
+            <Camera
+              style={styles.camera}
+              ref={setCameraRef}
+              onCameraReady={() => setIsCameraReady(true)}
+            ></Camera>
+          )}
+          {isCameraReady && (
+            <TouchableOpacity
+              style={{
+                ...styles.cameraBtn,
+                backgroundColor: photo
+                  ? "rgba(255, 255, 255, 0.30)"
+                  : "#ffffff",
+              }}
+              onPress={photo ? unsetPhoto : takePhoto}
+              activeOpacity={0.8}
+            >
+              <MaterialIcons
+                name="photo-camera"
+                size={24}
+                color={photo ? "#ffffff" : "#BDBDBD"}
+              />
+            </TouchableOpacity>
+          )}
         </View>
       </>
     );
