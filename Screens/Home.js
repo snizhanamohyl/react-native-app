@@ -2,10 +2,14 @@ import PostsScreen from "./PostsScreen";
 import CommentsScreen from "./CommentsScreen";
 import MapScreen from "./MapScreen";
 import { createStackNavigator } from "@react-navigation/stack";
+import { useSelector } from "react-redux";
 
 const NestedScreen = createStackNavigator();
 
-export default Home = ({ setIsAuth }) => {
+export default Home = () => {
+  const state = useSelector((state) => state);
+  console.log("🚀 ~ file: Home.js:12 ~ state:", state);
+
   return (
     <NestedScreen.Navigator>
       <NestedScreen.Screen
@@ -14,7 +18,7 @@ export default Home = ({ setIsAuth }) => {
         options={{
           title: "Публікації",
           header: ({ route, options }) => (
-            <Header route={route} options={options} setIsAuth={setIsAuth} />
+            <Header route={route} options={options} />
           ),
         }}
       />

@@ -8,14 +8,17 @@ import Home from "../screens/Home";
 import ProfileScreen from "../screens/ProfileScreen";
 import TabBar from "./TabBar";
 import Header from "./Header";
+import { useSelector } from "react-redux";
 
 const AuthStack = createStackNavigator();
 const MainTab = createBottomTabNavigator();
 
-export default Routes = () => {
-  const [isAuth, setIsAuth] = useState(true);
+export default Routes = ({ isAuth }) => {
+  // const [isAuth, setIsAuth] = useState(false);
+  const user = useSelector((state) => state.auth.email);
+  console.log("🚀 ~ file: Routes.js:19 ~ user:", user);
 
-  if (!isAuth) {
+  if (!user) {
     return (
       <AuthStack.Navigator
         initialRouteName="Login"
@@ -24,10 +27,10 @@ export default Routes = () => {
         }}
       >
         <AuthStack.Screen name="Register">
-          {() => <SharedStartScreenWrap setIsAuth={setIsAuth} />}
+          {() => <SharedStartScreenWrap />}
         </AuthStack.Screen>
         <AuthStack.Screen name="Login">
-          {() => <SharedStartScreenWrap isLogin setIsAuth={setIsAuth} />}
+          {() => <SharedStartScreenWrap isLogin />}
         </AuthStack.Screen>
       </AuthStack.Navigator>
     );
@@ -41,7 +44,7 @@ export default Routes = () => {
       tabBar={() => <TabBar />}
     >
       <MainTab.Screen name="Home" options={{ headerShown: false }}>
-        {() => <Home setIsAuth={setIsAuth} />}
+        {() => <Home />}
       </MainTab.Screen>
       <MainTab.Screen
         name="Create"

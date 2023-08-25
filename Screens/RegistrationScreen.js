@@ -1,22 +1,30 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { EvilIcons } from "@expo/vector-icons";
+import { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
+import { useDispatch } from "react-redux";
+
+import { register } from "../redux/auth/authOperations";
+
 import Title from "../components/Title";
 import StartInput from "../components/StartInput";
 import Button from "../components/Button";
-import { useState } from "react";
-import { useNavigation } from "@react-navigation/native";
 
-export default function RegistrationScreen({ setIsKeyboardShown, setIsAuth }) {
+export default function RegistrationScreen({ setIsKeyboardShown }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const navigation = useNavigation();
 
+  const dispatch = useDispatch();
+
   const onSubmit = () => {
     const userData = { name, email, password };
     console.log("userRegisterData", userData);
-    setIsAuth(true);
+
+    dispatch(register(userData));
+    // setIsAuth(true);
   };
 
   return (

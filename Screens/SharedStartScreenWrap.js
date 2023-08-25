@@ -11,7 +11,7 @@ import LoginScreen from "./LoginScreen";
 import RegistrationScreen from "./RegistrationScreen";
 import { useState } from "react";
 
-export const SharedStartScreenWrap = ({ isLogin, setIsAuth }) => {
+export const SharedStartScreenWrap = ({ isLogin }) => {
   const [isKeyboardShown, setIsKeyboardShown] = useState(false);
 
   const hideKeyboard = () => {
@@ -38,15 +38,9 @@ export const SharedStartScreenWrap = ({ isLogin, setIsAuth }) => {
               }}
             >
               {isLogin ? (
-                <LoginScreen
-                  setIsKeyboardShown={setIsKeyboardShown}
-                  setIsAuth={setIsAuth}
-                />
+                <LoginScreen setIsKeyboardShown={setIsKeyboardShown} />
               ) : (
-                <RegistrationScreen
-                  setIsKeyboardShown={setIsKeyboardShown}
-                  setIsAuth={setIsAuth}
-                />
+                <RegistrationScreen setIsKeyboardShown={setIsKeyboardShown} />
               )}
             </View>
           </TouchableWithoutFeedback>

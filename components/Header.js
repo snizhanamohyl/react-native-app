@@ -3,13 +3,14 @@ import { getHeaderTitle } from "@react-navigation/elements";
 import { useNavigation } from "@react-navigation/native";
 import { StyleSheet, Text, View } from "react-native";
 
-export default Header = ({ route, options, setIsAuth }) => {
+export default Header = ({ route, options }) => {
   const title = getHeaderTitle(options, route.name);
 
   const navigation = useNavigation();
 
   const logout = () => {
-    setIsAuth(false);
+    console.log('logout')
+    // setIsAuth(false);
   };
 
   return (

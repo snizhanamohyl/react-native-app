@@ -4,16 +4,23 @@ import StartInput from "../components/StartInput";
 import Button from "../components/Button";
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
+import { login } from "../redux/auth/authOperations";
+import { useDispatch } from "react-redux";
 
-export default function LoginScreen({ setIsKeyboardShown, setIsAuth }) {
+export default function LoginScreen({ setIsKeyboardShown }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigation = useNavigation();
 
+  const dispatch = useDispatch();
+
   const onSubmit = () => {
     const userData = { email, password };
     console.log("userLoginData", userData);
-    setIsAuth(true);
+
+    dispatch(login(userData));
+
+    // setIsAuth(true);
   };
 
   return (
