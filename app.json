@@ -14,7 +14,7 @@
     "assetBundlePatterns": [
       "**/*"
     ],
-    "jsEngine": "hermes",
+    "jsEngine": "jsc",
     "ios": {
       "supportsTablet": true,
       "jsEngine": "jsc"

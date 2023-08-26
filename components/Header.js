@@ -2,15 +2,19 @@ import { Feather } from "@expo/vector-icons";
 import { getHeaderTitle } from "@react-navigation/elements";
 import { useNavigation } from "@react-navigation/native";
 import { StyleSheet, Text, View } from "react-native";
+import { useDispatch } from "react-redux";
+
+import { logout } from "../redux/auth/authOperations";
 
 export default Header = ({ route, options }) => {
   const title = getHeaderTitle(options, route.name);
 
   const navigation = useNavigation();
 
-  const logout = () => {
-    console.log('logout')
-    // setIsAuth(false);
+  const dispatch = useDispatch();
+
+  const onLogout = () => {
+    dispatch(logout());
   };
 
   return (
@@ -33,7 +37,7 @@ export default Header = ({ route, options }) => {
           name="log-out"
           size={24}
           color="#BDBDBD"
-          onPress={logout}
+          onPress={onLogout}
         />
       )}
     </View>

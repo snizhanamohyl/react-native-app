@@ -2,14 +2,10 @@ import PostsScreen from "./PostsScreen";
 import CommentsScreen from "./CommentsScreen";
 import MapScreen from "./MapScreen";
 import { createStackNavigator } from "@react-navigation/stack";
-import { useSelector } from "react-redux";
 
 const NestedScreen = createStackNavigator();
 
 export default Home = () => {
-  const state = useSelector((state) => state);
-  console.log("🚀 ~ file: Home.js:12 ~ state:", state);
-
   return (
     <NestedScreen.Navigator>
       <NestedScreen.Screen

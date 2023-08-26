@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useSelector } from "react-redux";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
@@ -8,15 +8,22 @@ import Home from "../screens/Home";
 import ProfileScreen from "../screens/ProfileScreen";
 import TabBar from "./TabBar";
 import Header from "./Header";
-import { useSelector } from "react-redux";
+
+// import { onAuthStateChanged } from "firebase/auth";
+// import { auth } from "../firebase/config";
+// import { useState } from "react";
 
 const AuthStack = createStackNavigator();
 const MainTab = createBottomTabNavigator();
 
-export default Routes = ({ isAuth }) => {
-  // const [isAuth, setIsAuth] = useState(false);
-  const user = useSelector((state) => state.auth.email);
-  console.log("🚀 ~ file: Routes.js:19 ~ user:", user);
+export default Routes = () => {
+  // const [user, setUser] = useState(null);
+  const user = useSelector((state) => state.auth.user.email);
+
+  // onAuthStateChanged(auth, (user) => {
+  //   console.log("changed");
+  //   setUser(user);
+  // });
 
   if (!user) {
     return (

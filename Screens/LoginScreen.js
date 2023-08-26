@@ -16,11 +16,8 @@ export default function LoginScreen({ setIsKeyboardShown }) {
 
   const onSubmit = () => {
     const userData = { email, password };
-    console.log("userLoginData", userData);
 
     dispatch(login(userData));
-
-    // setIsAuth(true);
   };
 
   return (

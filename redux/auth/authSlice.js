@@ -1,11 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { register, login } from "./authOperations";
+import { register, login, logout } from "./authOperations";
 
 const initialState = {
   user: {
     name: null,
     email: null,
+    accessToken: null,
+    uid: null,
   },
 };
 
@@ -16,14 +18,16 @@ const authSlice = createSlice({
     builder
       .addCase(register.fulfilled, (state, action) => {
         // state.isLoading = false;
-        state.email = action.payload.email;
+        state.user = action.payload;
         // state.token = action.payload.token;
       })
       .addCase(login.fulfilled, (state, action) => {
-        console.log("🚀 ~ file: authSlice.js:23 ~ .addCase ~ state:", state);
         // state.isLoading = false;
-        state.email = action.payload.email;
+        state.user = action.payload;
         // state.token = action.payload.token;
+      })
+      .addCase(logout.fulfilled, (state, action) => {
+        state.user = initialState.user;
       });
   },
 });

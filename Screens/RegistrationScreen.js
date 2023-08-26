@@ -21,10 +21,8 @@ export default function RegistrationScreen({ setIsKeyboardShown }) {
 
   const onSubmit = () => {
     const userData = { name, email, password };
-    console.log("userRegisterData", userData);
 
     dispatch(register(userData));
-    // setIsAuth(true);
   };
 
   return (
