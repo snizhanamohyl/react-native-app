@@ -1,4 +1,5 @@
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
@@ -9,23 +10,21 @@ import ProfileScreen from "../screens/ProfileScreen";
 import TabBar from "./TabBar";
 import Header from "./Header";
 
-// import { onAuthStateChanged } from "firebase/auth";
-// import { auth } from "../firebase/config";
-// import { useState } from "react";
+import { onAuthChanged } from "../redux/auth/authOperations";
 
 const AuthStack = createStackNavigator();
 const MainTab = createBottomTabNavigator();
 
 export default Routes = () => {
-  // const [user, setUser] = useState(null);
-  const user = useSelector((state) => state.auth.user.email);
+  const isAuth = useSelector((state) => state.auth.stateChanged);
 
-  // onAuthStateChanged(auth, (user) => {
-  //   console.log("changed");
-  //   setUser(user);
-  // });
+  const dispatch = useDispatch();
 
-  if (!user) {
+  useEffect(() => {
+    dispatch(onAuthChanged());
+  }, []);
+
+  if (!isAuth) {
     return (
       <AuthStack.Navigator
         initialRouteName="Login"
