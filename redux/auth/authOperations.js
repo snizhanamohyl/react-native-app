@@ -1,10 +1,8 @@
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  onAuthStateChanged,
   updateProfile,
   signOut,
-  getAuth,
 } from "firebase/auth";
 import { auth } from "../../firebase/config";
 import { createAsyncThunk } from "@reduxjs/toolkit";
@@ -77,26 +75,6 @@ export const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
     return thunkAPI.rejectWithValue(error.message);
   }
 });
-
-export const onAuthChanged = createAsyncThunk(
-  "auth/stateChanged",
-  async (_, thunkAPI) => {
-    await onAuthStateChanged(auth, (user) => {
-      console.log(
-        "🚀 ~ file: authOperations.js:84 ~ onAuthStateChanged ~ user:",
-        user
-      );
-
-      if (user) {
-        const { email, displayName: name, accessToken, uid } = user;
-
-        return { email, name, accessToken, uid };
-      }
-    });
-
-    return thunkAPI.rejectWithValue({ message: "user is logged out" });
-  }
-);
 
 // export const register =
 //   ({ email, password, name }) =>

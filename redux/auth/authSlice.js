@@ -15,6 +15,13 @@ const initialState = {
 const authSlice = createSlice({
   name: "auth",
   initialState,
+  reducers: {
+    updateAuthState(state, action) {
+      console.log("🚀 ~ file: authSlice.js:21 ~ action:", action);
+      state.user = action.payload;
+      state.stateChanged = true;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(register.fulfilled, (state, action) => {
@@ -25,10 +32,11 @@ const authSlice = createSlice({
         state.user = action.payload;
         state.stateChanged = true;
       })
-      .addCase(onAuthChanged.fulfilled, (state, action) => {
-        state.user = action.payload;
-        state.stateChanged = true;
-      })
+      // .addCase(onAuthChanged.fulfilled, (state, action) => {
+      //   console.log("action.payload", action.payload);
+      //   state.user = action.payload;
+      //   state.stateChanged = true;
+      // })
       .addCase(logout.fulfilled, (state) => {
         state.user = initialState.user;
         state.stateChanged = false;
@@ -37,3 +45,4 @@ const authSlice = createSlice({
 });
 
 export default authSlice;
+export const { updateAuthState } = authSlice.actions;

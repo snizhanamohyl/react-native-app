@@ -20,6 +20,7 @@ export default CreatePostsScreen = () => {
     (async () => {
       const { status } = await Location.requestForegroundPermissionsAsync();
       console.log("🚀 ~ file: CreatePostsScreen.js:20 ~ status:", status);
+
       setHasLocPermission(status === "granted");
     })();
   }, []);
