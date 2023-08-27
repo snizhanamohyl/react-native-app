@@ -10,7 +10,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 export const register = createAsyncThunk(
   "auth/register",
-  async ({ email: userEmail, password, userName }, thunkAPI) => {
+  async ({ email: userEmail, password, name: userName }, thunkAPI) => {
     try {
       await createUserWithEmailAndPassword(auth, userEmail, password);
 
