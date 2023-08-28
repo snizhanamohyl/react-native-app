@@ -1,97 +1,103 @@
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useNavigation } from "@react-navigation/native";
+import { StyleSheet, Text, View, TextInput } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import * as Location from "expo-location";
-import { useEffect, useState } from "react";
-import { StyleSheet, Text, View, TextInput } from "react-native";
+
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { db, storage } from "../firebase/config";
 
 import Button from "../components/Button";
 import CameraWrap from "../components/CameraWrap";
-import { useNavigation } from "@react-navigation/native";
-import { ref, uploadBytes, uploadBytesResumable } from "firebase/storage";
-import { storage } from "../firebase/config";
+
+import { uriToBlob } from "../helpers/uriToBlob";
+import { addDoc, collection } from "firebase/firestore";
 
 export default CreatePostsScreen = () => {
   const [hasLocPermission, setHasLocPermission] = useState(null);
 
   const [photo, setPhoto] = useState("");
-  const [name, setName] = useState("");
+  const [postName, setPostName] = useState("");
   const [photoLocation, setPhotoLocation] = useState("");
+
+  const user = useSelector((state) => state.auth.user);
 
   const navigation = useNavigation();
 
   useEffect(() => {
     (async () => {
       const { status } = await Location.requestForegroundPermissionsAsync();
-      console.log("🚀 ~ file: CreatePostsScreen.js:20 ~ status:", status);
 
       setHasLocPermission(status === "granted");
     })();
   }, []);
 
-  const uriToBlob = (uri) => {
-    return new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.onload = function () {
-        // return the blob
-        resolve(xhr.response);
-      };
-      xhr.onerror = function () {
-        reject(new Error("uriToBlob failed"));
-      };
-      xhr.responseType = "blob";
-      xhr.open("GET", uri, true);
-
-      xhr.send(null);
-    });
+  const checkIfDisabled = () => {
+    return photo && postName && photoLocation ? false : true;
   };
 
   const uploadPhoto = async () => {
     try {
       const file = await uriToBlob(photo);
 
-      const storageRef = ref(storage, `postImages/${Date.now().toString}`);
+      const postId = Date.now().toString() + user.uid;
+      const imgRef = ref(storage, `postImages/${postId}`);
 
-      uploadBytes(storageRef, file)
-        .then((snapshot) => {
-          console.log("Uploaded a blob or file!");
-        })
-        .catch((error) => console.error(error));
+      await uploadBytes(imgRef, file);
+
+      return await getDownloadURL(imgRef);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const checkIfDisabled = () => {
-    return photo && name && photoLocation ? false : true;
+  const uploadPost = async (data) => {
+    try {
+      const docRef = await addDoc(collection(db, "posts"), data);
+
+      console.log(
+        "🚀 ~ file: CreatePostsScreen.js:65 ~ uploadPost ~ docRef:",
+        docRef
+      );
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const resetState = () => {
     setPhoto("");
-    setName("");
+    setPostName("");
     setPhotoLocation("");
   };
 
-  const onPost = async () => {
-    // if (hasLocPermission) {
-    const location = await Location.getCurrentPositionAsync({});
+  const getCoords = async () => {
+    if (hasLocPermission) {
+      const {
+        coords: { latitude, longitude },
+      } = await Location.getCurrentPositionAsync({});
 
-    const coordinates = {
-      latitude: location.coords.latitude,
-      longitude: location.coords.longitude,
-    };
+      return { latitude, longitude };
+    }
+  };
+
+  const onPost = async () => {
+    const photo = await uploadPhoto();
+    const coords = await getCoords();
 
     const postData = {
-      name,
-      photoURI: photo,
+      postName,
+      photo,
       location: photoLocation,
-      coordinates,
+      coords,
+      userId: user.uid,
     };
 
-    uploadPhoto();
+    await uploadPost(postData);
 
     navigation.navigate("Posts", postData);
 
     resetState();
-    // }
   };
 
   return (
@@ -107,11 +113,11 @@ export default CreatePostsScreen = () => {
           <TextInput
             style={{
               ...styles.inputText,
-              fontFamily: name ? "Roboto-Medium" : "Roboto-Regular",
+              fontFamily: postName ? "Roboto-Medium" : "Roboto-Regular",
             }}
             placeholder="Назва..."
-            value={name}
-            onChangeText={setName}
+            value={postName}
+            onChangeText={setPostName}
           />
         </View>
         <View style={{ ...styles.input, marginBottom: 16 }}>
