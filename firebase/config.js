@@ -15,9 +15,9 @@ const firebaseConfig = {
   storageBucket: "react-native-app-88163.appspot.com",
   messagingSenderId: "543514573221",
   appId: "1:543514573221:web:36c9b54104bcfd2dda104c",
-
-  //   databaseURL: "<https://project-id.firebaseio.com>",
-  //   measurementId: "G-measurement-id",
+  databaseURL:
+    "https://react-native-app-88163-default-rtdb.europe-west1.firebasedatabase.app",
+  // measurementId: "G-measurement-id",
 };
 
 const app = initializeApp(firebaseConfig);

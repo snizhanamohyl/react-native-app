@@ -3,8 +3,6 @@ import { Camera } from "expo-camera";
 import { useEffect, useState } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import * as MediaLibrary from "expo-media-library";
-import { storage } from "../firebase/config";
-import { ref, uploadBytes } from "firebase/storage";
 
 export default CameraWrap = ({ photo, setPhoto, checkIfDisabled }) => {
   const [hasPermission, setHasPermission] = useState(null);
@@ -18,39 +16,6 @@ export default CameraWrap = ({ photo, setPhoto, checkIfDisabled }) => {
       setHasPermission(status === "granted");
     })();
   }, []);
-
-  // const uriToBlob = (uri) => {
-  //   return new Promise((resolve, reject) => {
-  //     const xhr = new XMLHttpRequest();
-  //     xhr.onload = function () {
-  //       // return the blob
-  //       resolve(xhr.response);
-  //     };
-  //     xhr.onerror = function () {
-  //       reject(new Error("uriToBlob failed"));
-  //     };
-  //     xhr.responseType = "blob";
-  //     xhr.open("GET", uri, true);
-
-  //     xhr.send(null);
-  //   });
-  // };
-
-  // async function uploadFile(uri, filename, folder) {
-  //   if (!filename) return;
-  //   const storageRef = ref(storage, `${folder}/${filename}`);
-  //   const blobFile = await uriToBlob(uri);
-  //   try {
-  //     uploadBytes(storageRef, blobFile).then(async (snapshot) => {
-  //       console.log("snapshot", snapshot);
-  //       const url = await getDownloadURL(storageRef);
-  //       return url;
-  //     });
-  //   } catch (err) {
-  //     console.log(err);
-  //     return null;
-  //   }
-  // }
 
   const takePhoto = async () => {
     if (cameraRef) {

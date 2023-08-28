@@ -3,14 +3,14 @@ import { useNavigation } from "@react-navigation/native";
 import { StyleSheet, View, Image, Text } from "react-native";
 
 export default Post = ({ post }) => {
-  const { name, location, photoURI, coordinates } = post.item;
+  const { postName, location, photo } = post.item.data;
 
   const navigation = useNavigation();
 
   return (
     <View>
-      <Image style={styles.image} source={{ uri: photoURI }} />
-      <Text style={styles.title}>{name}</Text>
+      <Image style={styles.image} source={{ uri: photo }} />
+      <Text style={styles.title}>{postName}</Text>
       <View style={styles.info}>
         <View style={styles.comments}>
           <Feather
@@ -29,7 +29,7 @@ export default Post = ({ post }) => {
             name="map-pin"
             size={24}
             color="#BDBDBD"
-            onPress={() => navigation.navigate("Map", post.item)}
+            onPress={() => navigation.navigate("Map", post.item.data)}
           />
           <Text style={styles.locationText}>{location}</Text>
         </View>

@@ -54,12 +54,7 @@ export default CreatePostsScreen = () => {
 
   const uploadPost = async (data) => {
     try {
-      const docRef = await addDoc(collection(db, "posts"), data);
-
-      console.log(
-        "🚀 ~ file: CreatePostsScreen.js:65 ~ uploadPost ~ docRef:",
-        docRef
-      );
+      await addDoc(collection(db, "posts"), data);
     } catch (error) {
       console.log(error);
     }
@@ -92,6 +87,10 @@ export default CreatePostsScreen = () => {
       coords,
       userId: user.uid,
     };
+    console.log(
+      "🚀 ~ file: CreatePostsScreen.js:90 ~ onPost ~ postData:",
+      postData
+    );
 
     await uploadPost(postData);
 
