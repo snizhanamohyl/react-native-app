@@ -6,6 +6,8 @@ import { StyleSheet, Text, View, TextInput } from "react-native";
 import Button from "../components/Button";
 import CameraWrap from "../components/CameraWrap";
 import { useNavigation } from "@react-navigation/native";
+import { ref, uploadBytes, uploadBytesResumable } from "firebase/storage";
+import { storage } from "../firebase/config";
 
 export default CreatePostsScreen = () => {
   const [hasLocPermission, setHasLocPermission] = useState(null);
@@ -25,12 +27,41 @@ export default CreatePostsScreen = () => {
     })();
   }, []);
 
-  const checkIfDisabled = () => {
-    if (photo && name && photoLocation) {
-      return false;
-    }
+  const uriToBlob = (uri) => {
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.onload = function () {
+        // return the blob
+        resolve(xhr.response);
+      };
+      xhr.onerror = function () {
+        reject(new Error("uriToBlob failed"));
+      };
+      xhr.responseType = "blob";
+      xhr.open("GET", uri, true);
 
-    return true;
+      xhr.send(null);
+    });
+  };
+
+  const uploadPhoto = async () => {
+    try {
+      const file = await uriToBlob(photo);
+
+      const storageRef = ref(storage, `postImages/${Date.now().toString}`);
+
+      uploadBytes(storageRef, file)
+        .then((snapshot) => {
+          console.log("Uploaded a blob or file!");
+        })
+        .catch((error) => console.error(error));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const checkIfDisabled = () => {
+    return photo && name && photoLocation ? false : true;
   };
 
   const resetState = () => {
@@ -54,6 +85,8 @@ export default CreatePostsScreen = () => {
       location: photoLocation,
       coordinates,
     };
+
+    uploadPhoto();
 
     navigation.navigate("Posts", postData);
 

@@ -56,32 +56,8 @@ export default CameraWrap = ({ photo, setPhoto, checkIfDisabled }) => {
     if (cameraRef) {
       const { uri } = await cameraRef.takePictureAsync();
 
-      await uploadPhoto(uri);
       setPhoto(uri);
       // await MediaLibrary.createAssetAsync(uri);
-    }
-  };
-
-  const uploadPhoto = async () => {
-    // console.log(photo);
-
-    try {
-      const res = await fetch(photo);
-      console.log("🚀 ~ file: CameraWrap.js:33 ~ uploadPhoto ~ photo:", res);
-
-      const file = await res.blob();
-
-      const storageRef = ref(storage, `postImages/${Date.now().toString}`);
-
-      uploadBytes(storageRef, file).then((snapshot) => {
-        console.log(
-          "🚀 ~ file: CameraWrap.js:38 ~ uploadBytes ~ snapshot:",
-          snapshot
-        );
-        console.log("Uploaded a blob or file!");
-      });
-    } catch (error) {
-      console.log(error);
     }
   };
 
