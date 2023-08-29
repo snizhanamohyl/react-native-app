@@ -7,6 +7,14 @@ export default Post = ({ post }) => {
 
   const navigation = useNavigation();
 
+  const navigateToComments = () => {
+    navigation.navigate("Comments", post.item);
+  };
+
+  const navigateToMap = () => {
+    navigation.navigate("Map", post.item.data);
+  };
+
   return (
     <View>
       <Image style={styles.image} source={{ uri: photo }} />
@@ -17,10 +25,7 @@ export default Post = ({ post }) => {
             name="message-circle"
             size={24}
             color="#BDBDBD"
-            onPress={() => {
-              console.log("comme");
-              navigation.navigate("Comments");
-            }}
+            onPress={navigateToComments}
           />
           <Text style={styles.commentsNumber}>0</Text>
         </View>
@@ -29,7 +34,7 @@ export default Post = ({ post }) => {
             name="map-pin"
             size={24}
             color="#BDBDBD"
-            onPress={() => navigation.navigate("Map", post.item.data)}
+            onPress={navigateToMap}
           />
           <Text style={styles.locationText}>{location}</Text>
         </View>

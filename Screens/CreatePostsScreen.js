@@ -12,7 +12,7 @@ import Button from "../components/Button";
 import CameraWrap from "../components/CameraWrap";
 
 import { uriToBlob } from "../helpers/uriToBlob";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 
 export default CreatePostsScreen = () => {
   const [hasLocPermission, setHasLocPermission] = useState(null);
@@ -54,7 +54,10 @@ export default CreatePostsScreen = () => {
 
   const uploadPost = async (data) => {
     try {
-      await addDoc(collection(db, "posts"), data);
+      await addDoc(collection(db, "posts"), {
+        ...data,
+        createdAt: serverTimestamp(),
+      });
     } catch (error) {
       console.log(error);
     }
@@ -87,10 +90,6 @@ export default CreatePostsScreen = () => {
       coords,
       userId: user.uid,
     };
-    console.log(
-      "🚀 ~ file: CreatePostsScreen.js:90 ~ onPost ~ postData:",
-      postData
-    );
 
     await uploadPost(postData);
 

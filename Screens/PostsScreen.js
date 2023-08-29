@@ -5,9 +5,11 @@ import { collection, doc, getDocs, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase/config";
 
 import Post from "../components/Post";
+import { useDispatch, useSelector } from "react-redux";
 
 export default PostsScreen = ({ route }) => {
   const [posts, setPosts] = useState([]);
+  console.log("🚀 ~ file: PostsScreen.js:12 ~ posts:", posts);
 
   const getAllPosts = async () => {
     try {
@@ -25,7 +27,14 @@ export default PostsScreen = ({ route }) => {
     }
   };
 
+  console.log("cпfgv,dggmnyk");
+
+  // const posts = useSelector((state) => state.posts);
+
+  // const dispatch = useDispatch();
+
   useEffect(() => {
+    // dispatch(getAllPosts());
     if (posts.length !== 0 && !route.params) return;
 
     (async () => {
@@ -34,7 +43,8 @@ export default PostsScreen = ({ route }) => {
 
       setPosts(posts);
     })();
-  }, [getAllPosts, route]);
+  }, []);
+  // }, [dispatch, getAllPosts, route]);
 
   return (
     <View style={styles.container}>

@@ -29,6 +29,7 @@ const authSlice = createSlice({
       })
       .addCase(login.fulfilled, (state, action) => {
         state.user = action.payload;
+        console.log("🚀 ~ file: authSlice.js:32 ~ .addCase ~ state:", state);
         state.stateChanged = true;
       })
       .addCase(logout.fulfilled, (state) => {

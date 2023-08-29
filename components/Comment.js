@@ -1,0 +1,70 @@
+import { Text, View, Image, StyleSheet } from "react-native";
+import { monthNames } from "../constants/months";
+
+export default Comment = ({ comment }) => {
+  const { comment: commentText, createdAt } = comment.item.data;
+  console.log(createdAt.toDate().getDate().toString().length);
+
+  const normalizeNumber = (number) => {
+    return number.toString().length === 2 ? number : `0${number}`;
+  };
+
+  const transformData = (createdAt) => {
+    const date = createdAt.toDate();
+
+    const day = normalizeNumber(date.getDate());
+    const month = date.getMonth();
+    const year = date.getFullYear();
+    const minutes = normalizeNumber(date.getMinutes());
+    const hours = normalizeNumber(date.getHours());
+
+    return `${day} ${monthNames[month]}, ${year} | ${hours}:${minutes}`;
+  };
+
+  return (
+    <View style={styles.wrap}>
+      <Image
+        style={styles.avatar}
+        source={{
+          uri: "https://images.squarespace-cdn.com/content/v1/54b7b93ce4b0a3e130d5d232/1519987020970-8IQ7F6Z61LLBCX85A65S/icon.png?format=1000w",
+        }}
+      />
+      <View style={styles.commentInfo}>
+        <Text style={styles.text}>{commentText}</Text>
+        <Text style={styles.time}>{transformData(createdAt)}</Text>
+      </View>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  wrap: {
+    flexDirection: "row",
+    gap: 16,
+  },
+  avatar: {
+    borderRadius: 28,
+    width: 28,
+    height: 28,
+    overflow: "hidden",
+  },
+  commentInfo: {
+    borderRadius: 6,
+    borderTopLeftRadius: 0,
+    backgroundColor: "rgba(0, 0, 0, 0.03)",
+    padding: 16,
+  },
+  text: {
+    color: "#212121",
+    fontFamily: "Roboto-Regular",
+    fontSize: 13,
+    lineHeight: 18,
+    marginBottom: 8,
+  },
+  time: {
+    fontFamily: "Roboto-Regular",
+    color: "#BDBDBD",
+    fontSize: 10,
+    textAlign: "right",
+  },
+});
