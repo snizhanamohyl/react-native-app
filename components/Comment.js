@@ -1,9 +1,17 @@
 import { Text, View, Image, StyleSheet } from "react-native";
 import { monthNames } from "../constants/months";
+import { useSelector } from "react-redux";
 
 export default Comment = ({ comment }) => {
-  const { comment: commentText, createdAt } = comment.item.data;
-  console.log(createdAt.toDate().getDate().toString().length);
+  const {
+    comment: commentText,
+    createdAt,
+    user: { uid },
+  } = comment.item.data;
+
+  const user = useSelector((state) => state.auth.user);
+
+  const isCurrentUserComment = uid === user.uid;
 
   const normalizeNumber = (number) => {
     return number.toString().length === 2 ? number : `0${number}`;
@@ -22,14 +30,25 @@ export default Comment = ({ comment }) => {
   };
 
   return (
-    <View style={styles.wrap}>
+    <View
+      style={{
+        ...styles.wrap,
+        flexDirection: isCurrentUserComment ? "row-reverse" : "row",
+      }}
+    >
       <Image
         style={styles.avatar}
         source={{
           uri: "https://images.squarespace-cdn.com/content/v1/54b7b93ce4b0a3e130d5d232/1519987020970-8IQ7F6Z61LLBCX85A65S/icon.png?format=1000w",
         }}
       />
-      <View style={styles.commentInfo}>
+      <View
+        style={{
+          ...styles.commentInfo,
+          borderTopLeftRadius: isCurrentUserComment ? 6 : 0,
+          borderTopRightRadius: isCurrentUserComment ? 0 : 6,
+        }}
+      >
         <Text style={styles.text}>{commentText}</Text>
         <Text style={styles.time}>{transformData(createdAt)}</Text>
       </View>
@@ -50,7 +69,7 @@ const styles = StyleSheet.create({
   },
   commentInfo: {
     borderRadius: 6,
-    borderTopLeftRadius: 0,
+    // borderTopLeftRadius: 0,
     backgroundColor: "rgba(0, 0, 0, 0.03)",
     padding: 16,
   },

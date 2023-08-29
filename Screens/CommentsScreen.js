@@ -15,7 +15,6 @@ import Comment from "../components/Comment";
 export default CommentsScreen = ({ route }) => {
   const [commentText, setCommentText] = useState("");
   const [comments, setComments] = useState([]);
-  console.log("🚀 ~ file: CommentsScreen.js:13 ~ comments:", comments);
 
   const { name, uid } = useSelector((state) => state.auth.user);
 

@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 export default PostsScreen = ({ route }) => {
   const [posts, setPosts] = useState([]);
-  console.log("🚀 ~ file: PostsScreen.js:12 ~ posts:", posts);
+  console.log("🚀 ~ file: bhPostsScreen.js:12 ~ posts:", posts);
 
   const getAllPosts = async () => {
     try {
@@ -27,7 +27,7 @@ export default PostsScreen = ({ route }) => {
     }
   };
 
-  console.log("cпfgv,dggmnyk");
+  console.log("cпfjgllv,dgfhgtmnyk");
 
   // const posts = useSelector((state) => state.posts);
 
