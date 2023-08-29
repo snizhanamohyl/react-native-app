@@ -60,6 +60,7 @@ export default CommentsScreen = ({ route }) => {
 
     try {
       await addDoc(collection(db, "posts", `${id}`, "comments"), commentData);
+      setCommentText("");
 
       const storedComments = await getAllComments();
 
