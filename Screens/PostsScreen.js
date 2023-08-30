@@ -29,7 +29,7 @@ export default PostsScreen = ({ route }) => {
     }
   };
 
-  console.log("cпfjgllv,dgfhgtmnyk");
+  console.log("cпfjlhgtmnyk");
 
   // const posts = useSelector((state) => state.posts);
 
