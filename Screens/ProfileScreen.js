@@ -1,6 +1,5 @@
 import { EvilIcons, Feather } from "@expo/vector-icons";
 import {
-  Text,
   View,
   Image,
   TouchableOpacity,
@@ -9,13 +8,23 @@ import {
 } from "react-native";
 import Title from "../components/Title";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../redux/auth/authOperations";
+import { logout, update } from "../redux/auth/authOperations";
 import { selectUserPosts } from "../redux/selectors";
 import PostList from "../components/PostList";
-// import SharedStartScreenWrap from "../screens/SharedStartScreenWrap";
+import { defaultAvatar } from "../constants/defaultAvatar";
+import { useEffect, useState } from "react";
+import {
+  MediaTypeOptions,
+  launchImageLibraryAsync,
+  requestMediaLibraryPermissionsAsync,
+} from "expo-image-picker";
+import { uriToBlob } from "../helpers/uriToBlob";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { storage } from "../firebase/config";
 
 export default ProfileScreen = () => {
-  const { name } = useSelector((state) => state.auth.user);
+  const [hasGalleryPermission, setHasGalleryPermission] = useState(false);
+  const { name, photoURL } = useSelector((state) => state.auth.user);
 
   const userPosts = useSelector(selectUserPosts);
 
@@ -23,6 +32,42 @@ export default ProfileScreen = () => {
 
   const onLogout = () => {
     dispatch(logout());
+  };
+
+  useEffect(() => {
+    (async () => {
+      const { status } = await requestMediaLibraryPermissionsAsync();
+      setHasGalleryPermission(status === "granted");
+    })();
+  }, []);
+
+  const pickImage = async () => {
+    const { assets, canceled } = await launchImageLibraryAsync({
+      mediaTypes: MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+    });
+
+    if (canceled) return;
+
+    const avatarURL = await uploadPhoto(assets[0].uri);
+
+    dispatch(update({ photoURL: avatarURL }));
+  };
+
+  const uploadPhoto = async (avatar) => {
+    try {
+      const file = await uriToBlob(avatar);
+
+      const avatarId = avatar.slice(-41, -5);
+      const imgRef = ref(storage, `avatars/${avatarId}`);
+
+      await uploadBytes(imgRef, file);
+
+      return await getDownloadURL(imgRef);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -33,8 +78,15 @@ export default ProfileScreen = () => {
     >
       <View style={styles.content}>
         <View style={styles.avatarWrap}>
-          <Image style={styles.avatar} source={""} />
-          <TouchableOpacity style={styles.plus} activeOpacity={0.8}>
+          <Image
+            style={styles.avatar}
+            source={{ uri: photoURL ? photoURL : defaultAvatar }}
+          />
+          <TouchableOpacity
+            style={styles.plus}
+            activeOpacity={0.8}
+            onPress={pickImage}
+          >
             <EvilIcons name="plus" size={32} color="#FF6C00" />
           </TouchableOpacity>
         </View>

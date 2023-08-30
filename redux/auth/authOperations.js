@@ -9,17 +9,27 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 export const register = createAsyncThunk(
   "auth/register",
-  async ({ email: userEmail, password, name: userName }, thunkAPI) => {
+  async (
+    { email: userEmail, password, avatarURL, name: userName },
+    thunkAPI
+  ) => {
     try {
       await createUserWithEmailAndPassword(auth, userEmail, password);
 
       await updateProfile(auth.currentUser, {
         displayName: userName,
+        photoURL: avatarURL,
       });
 
-      const { email, displayName: name, accessToken, uid } = auth.currentUser;
+      const {
+        email,
+        displayName: name,
+        accessToken,
+        uid,
+        photoURL,
+      } = auth.currentUser;
 
-      return { email, name, accessToken, uid };
+      return { email, name, accessToken, uid, photoURL };
     } catch (error) {
       console.error(error);
       return thunkAPI.rejectWithValue(error.message);
@@ -37,9 +47,9 @@ export const login = createAsyncThunk(
         password
       );
 
-      const { email, displayName: name, accessToken, uid } = user;
+      const { email, displayName: name, accessToken, uid, photoURL } = user;
 
-      return { email, name, accessToken, uid };
+      return { email, name, accessToken, uid, photoURL };
     } catch (error) {
       console.error(error);
       return thunkAPI.rejectWithValue(error.message);
@@ -56,7 +66,7 @@ export const update = createAsyncThunk(
       try {
         await updateProfile(user, dataToUpdate);
 
-        return auth.currentUser;
+        return dataToUpdate;
       } catch (error) {
         console.error(error);
         return thunkAPI.rejectWithValue(error.message);

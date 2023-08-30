@@ -1,35 +1,84 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { EvilIcons } from "@expo/vector-icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch } from "react-redux";
+import {
+  requestMediaLibraryPermissionsAsync,
+  launchImageLibraryAsync,
+  MediaTypeOptions,
+} from "expo-image-picker";
 
 import { register } from "../redux/auth/authOperations";
+import { uriToBlob } from "../helpers/uriToBlob";
 
 import Title from "../components/Title";
 import StartInput from "../components/StartInput";
 import Button from "../components/Button";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { storage } from "../firebase/config";
 
 export default function RegistrationScreen({ setIsKeyboardShown }) {
+  const [hasGalleryPermission, setHasGalleryPermission] = useState(false);
+
+  const [avatar, setAvatar] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const dispatch = useDispatch();
   const navigation = useNavigation();
 
-  const dispatch = useDispatch();
+  useEffect(() => {
+    (async () => {
+      const { status } = await requestMediaLibraryPermissionsAsync();
+      setHasGalleryPermission(status === "granted");
+    })();
+  }, []);
 
-  const onSubmit = () => {
-    const userData = { name, email, password };
+  const pickImage = async () => {
+    const { assets, canceled } = await launchImageLibraryAsync({
+      mediaTypes: MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+    });
 
+    if (canceled) return;
+
+    setAvatar(assets[0].uri);
+  };
+
+  const uploadPhoto = async () => {
+    try {
+      const file = await uriToBlob(avatar);
+
+      const avatarId = avatar.slice(-41, -5);
+      const imgRef = ref(storage, `avatars/${avatarId}`);
+
+      await uploadBytes(imgRef, file);
+
+      return await getDownloadURL(imgRef);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const onSubmit = async () => {
+    const avatarURL = await uploadPhoto();
+
+    const userData = { name, email, password, avatarURL };
     dispatch(register(userData));
   };
 
   return (
     <>
       <View style={styles.avatarWrap}>
-        <Image style={styles.avatar} source={""} />
-        <TouchableOpacity style={styles.plus} activeOpacity={0.8}>
+        <Image style={styles.avatar} source={{ uri: avatar }} />
+        <TouchableOpacity
+          style={styles.plus}
+          activeOpacity={0.8}
+          onPress={pickImage}
+        >
           <EvilIcons name="plus" size={32} color="#FF6C00" />
         </TouchableOpacity>
       </View>

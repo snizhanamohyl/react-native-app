@@ -24,9 +24,9 @@ export default Routes = () => {
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
-      const { email, displayName: name, accessToken, uid } = user;
+      const { email, displayName: name, accessToken, uid, photoURL } = user;
 
-      dispatch(updateAuthState({ email, name, accessToken, uid }));
+      dispatch(updateAuthState({ email, name, accessToken, uid, photoURL }));
       return;
     }
   });

@@ -16,7 +16,7 @@ export default CommentsScreen = ({ route }) => {
   const [commentText, setCommentText] = useState("");
   const [comments, setComments] = useState([]);
 
-  const { name, uid } = useSelector((state) => state.auth.user);
+  const { name, uid, photoURL } = useSelector((state) => state.auth.user);
 
   const {
     id,
@@ -54,7 +54,7 @@ export default CommentsScreen = ({ route }) => {
 
     const commentData = {
       comment: commentText,
-      user: { name, uid },
+      user: { name, uid, photoURL },
       createdAt: serverTimestamp(),
     };
 

@@ -7,13 +7,14 @@ import { StyleSheet, View, Image, Text } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllPosts } from "../redux/posts/postsOperations";
 import PostList from "../components/PostList";
+import { defaultAvatar } from "../constants/defaultAvatar";
 
 export default PostsScreen = ({ route }) => {
   // const [posts, setPosts] = useState([]);
   // console.log("🚀 d~ file: bhPostsScreen.js:12 ~ posts:", posts);
-  console.log(",fdfdfddfGcFff");
+  console.log("fdfdfGfFff");
 
-  const { name, email } = useSelector((state) => state.auth.user);
+  const { name, email, photoURL } = useSelector((state) => state.auth.user);
 
   // const getAllPosts = async () => {
   //   try {
@@ -56,7 +57,7 @@ export default PostsScreen = ({ route }) => {
         <Image
           style={styles.avatar}
           source={{
-            uri: "https://images.squarespace-cdn.com/content/v1/54b7b93ce4b0a3e130d5d232/1519987020970-8IQ7F6Z61LLBCX85A65S/icon.png?format=1000w",
+            uri: photoURL ? photoURL : defaultAvatar,
           }}
         />
         <View style={styles.userInfo}>
