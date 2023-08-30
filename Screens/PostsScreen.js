@@ -1,52 +1,54 @@
 import { useEffect, useState } from "react";
-import { FlatList, StyleSheet, View, Image, Text } from "react-native";
+import { StyleSheet, View, Image, Text } from "react-native";
 
-import { collection, doc, getDocs, onSnapshot } from "firebase/firestore";
-import { db } from "../firebase/config";
+// import { collection, doc, getDocs, onSnapshot } from "firebase/firestore";
+// import { db } from "../firebase/config";
 
-import Post from "../components/Post";
 import { useDispatch, useSelector } from "react-redux";
+import { getAllPosts } from "../redux/posts/postsOperations";
+import PostList from "../components/PostList";
 
 export default PostsScreen = ({ route }) => {
-  const [posts, setPosts] = useState([]);
-  console.log("🚀 ~ file: bhPostsScreen.js:12 ~ posts:", posts);
+  // const [posts, setPosts] = useState([]);
+  // console.log("🚀 d~ file: bhPostsScreen.js:12 ~ posts:", posts);
+  console.log(",fdfdfddfGcFff");
 
   const { name, email } = useSelector((state) => state.auth.user);
 
-  const getAllPosts = async () => {
-    try {
-      const snapshot = await getDocs(collection(db, "posts"));
-      const posts = [];
+  // const getAllPosts = async () => {
+  //   try {
+  //     const snapshot = await getDocs(collection(db, "posts"));
+  //     const posts = [];
 
-      snapshot.forEach((doc) => {
-        posts.push({ id: doc.id, data: doc.data() });
-        console.log(`${doc.id} =>`, doc.data());
-      });
+  //     snapshot.forEach((doc) => {
+  //       posts.push({ id: doc.id, data: doc.data() });
+  //       console.log(`${doc.id} =>`, doc.data());
+  //     });
 
-      return posts;
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  //     return posts;
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
-  console.log("cпfjlhgtmnyk");
+  const posts = useSelector((state) => state.posts);
 
-  // const posts = useSelector((state) => state.posts);
-
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    // dispatch(getAllPosts());
-    if (posts.length !== 0 && !route.params) return;
+    dispatch(getAllPosts());
+  }, [dispatch]);
 
-    (async () => {
-      const posts = await getAllPosts();
-      if (posts.length === 0) return;
+  // useEffect(() => {
+  //   if (posts.length !== 0 && !route.params) return;
 
-      setPosts(posts);
-    })();
-  }, []);
-  // }, [dispatch, getAllPosts, route]);
+  //   (async () => {
+  //     const posts = await getAllPosts();
+  //     if (posts.length === 0) return;
+
+  //     setPosts(posts);
+  //   })();
+  // }, []);
 
   return (
     <View style={styles.container}>
@@ -62,17 +64,7 @@ export default PostsScreen = ({ route }) => {
           <Text style={styles.email}>{email}</Text>
         </View>
       </View>
-      {posts && posts.length > 0 && (
-        <FlatList
-          style={styles.list}
-          data={posts}
-          keyExtractor={(post) => {
-            return post?.id;
-          }}
-          renderItem={(post) => <Post post={post} />}
-          ItemSeparatorComponent={<View style={{ height: 32 }}></View>}
-        ></FlatList>
-      )}
+      <PostList posts={posts} defaultText="No posts founded" />
     </View>
   );
 };
@@ -88,7 +80,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     gap: 8,
     alignItems: "center",
-    marginBottom: 32,
   },
   avatar: {
     borderRadius: 16,
@@ -105,9 +96,5 @@ const styles = StyleSheet.create({
     color: "rgba(33, 33, 33, 0.80)",
     fontFamily: "Roboto-Regular",
     fontSize: 11,
-  },
-  list: {
-    flexDirection: "column",
-    gap: 32,
   },
 });

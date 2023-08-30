@@ -31,9 +31,9 @@ export const auth = initializeAuth(app, {
 });
 
 const firestoreSettings = {
+  // useFetchStreams: false,
   experimentalForceLongPolling: true,
-  useFetchStreams: false,
-  // experimentalAutoDetectLongPolling: true,
+  // merge: true,
 };
 
 export const db = initializeFirestore(app, firestoreSettings);

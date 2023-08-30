@@ -18,7 +18,7 @@ export default function TabBar({}) {
       <TouchableOpacity
         style={styles.navItem}
         activeOpacity={0.8}
-        onPress={() => navigation.navigate("Posts")}
+        onPress={() => navigation.navigate("Home")}
       >
         <Feather name="grid" size={24} color="#212121" />
       </TouchableOpacity>

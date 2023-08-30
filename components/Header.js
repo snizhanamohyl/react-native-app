@@ -25,7 +25,7 @@ export default Header = ({ route, options }) => {
           name="arrow-left"
           size={24}
           color="#212121"
-          onPress={() => navigation.navigate("Posts")}
+          onPress={() => navigation.navigate("Home")}
         />
       )}
       <Text title={title} style={styles.title}>

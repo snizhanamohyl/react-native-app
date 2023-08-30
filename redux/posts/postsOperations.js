@@ -10,11 +10,14 @@ export const getAllPosts = createAsyncThunk(
       const posts = [];
 
       snapshot.forEach((doc) => {
-        posts.push({ id: doc.id, data: doc.data() });
-        // console.log(`${doc.id} =>`, doc.data());
+        posts.push({
+          id: doc.id,
+          data: {
+            ...doc.data(),
+            createdAt: doc.data().createdAt.toDate().toString(),
+          },
+        });
       });
-
-      // if (posts.length === 0) throw new Error("No posts");
 
       return posts;
     } catch (error) {

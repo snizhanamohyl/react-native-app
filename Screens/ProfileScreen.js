@@ -10,10 +10,14 @@ import {
 import Title from "../components/Title";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../redux/auth/authOperations";
+import { selectUserPosts } from "../redux/selectors";
+import PostList from "../components/PostList";
 // import SharedStartScreenWrap from "../screens/SharedStartScreenWrap";
 
 export default ProfileScreen = () => {
   const { name } = useSelector((state) => state.auth.user);
+
+  const userPosts = useSelector(selectUserPosts);
 
   const dispatch = useDispatch();
 
@@ -43,6 +47,10 @@ export default ProfileScreen = () => {
         />
 
         <Title title={name} />
+        <PostList
+          posts={userPosts}
+          defaultText="You haven't published any post yet"
+        />
       </View>
     </ImageBackground>
   );
@@ -59,8 +67,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     paddingHorizontal: 16,
     paddingTop: 92,
-    paddingBottom: 42,
     fontFamily: "Roboto-Regular",
+    flex: 0.8,
   },
   avatarWrap: {
     position: "absolute",
