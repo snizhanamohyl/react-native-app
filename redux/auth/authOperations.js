@@ -15,7 +15,12 @@ export const register = createAsyncThunk(
   ) => {
     try {
       await createUserWithEmailAndPassword(auth, userEmail, password);
+    } catch (error) {
+      console.error("create", error);
+      return thunkAPI.rejectWithValue(error.message);
+    }
 
+    try {
       await updateProfile(auth.currentUser, {
         displayName: userName,
         photoURL: avatarURL,
@@ -31,7 +36,7 @@ export const register = createAsyncThunk(
 
       return { email, name, accessToken, uid, photoURL };
     } catch (error) {
-      console.error(error);
+      console.error("update", error);
       return thunkAPI.rejectWithValue(error.message);
     }
   }

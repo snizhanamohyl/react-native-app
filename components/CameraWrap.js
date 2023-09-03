@@ -57,6 +57,7 @@ export default CameraWrap = ({ photo, setPhoto, checkIfDisabled }) => {
             <Camera
               style={styles.camera}
               ref={setCameraRef}
+              type={Camera.Constants.Type.back}
               onCameraReady={() => setIsCameraReady(true)}
             ></Camera>
           )}

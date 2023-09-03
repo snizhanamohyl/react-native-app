@@ -6,13 +6,13 @@ import { Feather } from "@expo/vector-icons";
 import * as Location from "expo-location";
 
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { db, storage } from "../firebase/config";
 
 import Button from "../components/Button";
 import CameraWrap from "../components/CameraWrap";
 
 import { uriToBlob } from "../helpers/uriToBlob";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 
 export default CreatePostsScreen = () => {
   const [hasLocPermission, setHasLocPermission] = useState(null);

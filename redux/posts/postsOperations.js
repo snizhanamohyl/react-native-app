@@ -14,7 +14,7 @@ export const getAllPosts = createAsyncThunk(
           id: doc.id,
           data: {
             ...doc.data(),
-            createdAt: doc.data().createdAt.toDate().toString(),
+            createdAt: doc.data().createdAt.seconds,
           },
         });
       });

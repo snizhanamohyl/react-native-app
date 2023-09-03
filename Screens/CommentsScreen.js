@@ -11,6 +11,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase/config";
 import Comment from "../components/Comment";
+import { dateSorting } from "../helpers/dateSorting";
 
 export default CommentsScreen = ({ route }) => {
   const [commentText, setCommentText] = useState("");
@@ -24,7 +25,6 @@ export default CommentsScreen = ({ route }) => {
   } = route.params;
 
   const getAllComments = async () => {
-    console.log("getAllComments");
     try {
       const snapshot = await getDocs(
         collection(db, "posts", `${id}`, "comments")
@@ -39,6 +39,17 @@ export default CommentsScreen = ({ route }) => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const sortByDate = () => {
+    return comments.length > 1
+      ? comments.sort((a, b) => {
+          const dateA = a.data.createdAt.seconds;
+          const dateB = b.data.createdAt.seconds;
+
+          return dateSorting(dateA, dateB);
+        })
+      : comments;
   };
 
   useEffect(() => {
@@ -74,7 +85,7 @@ export default CommentsScreen = ({ route }) => {
     <View style={styles.wrap}>
       <Image style={styles.image} source={{ uri: photo }} />
       <FlatList
-        data={comments}
+        data={sortByDate(comments)}
         renderItem={(comment) => {
           return <Comment comment={comment} />;
         }}
@@ -131,7 +142,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginTop: 32,
   },
   input: {
     paddingHorizontal: 16,

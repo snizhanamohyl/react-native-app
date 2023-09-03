@@ -1,36 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { StyleSheet, View, Image, Text } from "react-native";
-
-// import { collection, doc, getDocs, onSnapshot } from "firebase/firestore";
-// import { db } from "../firebase/config";
 
 import { useDispatch, useSelector } from "react-redux";
 import { getAllPosts } from "../redux/posts/postsOperations";
 import PostList from "../components/PostList";
 import { defaultAvatar } from "../constants/defaultAvatar";
+import { dateSorting } from "../helpers/dateSorting";
 
-export default PostsScreen = ({ route }) => {
-  // const [posts, setPosts] = useState([]);
-  // console.log("🚀 d~ file: bhPostsScreen.js:12 ~ posts:", posts);
-  console.log("fdfdfGfFff");
-
+export default PostsScreen = () => {
   const { name, email, photoURL } = useSelector((state) => state.auth.user);
-
-  // const getAllPosts = async () => {
-  //   try {
-  //     const snapshot = await getDocs(collection(db, "posts"));
-  //     const posts = [];
-
-  //     snapshot.forEach((doc) => {
-  //       posts.push({ id: doc.id, data: doc.data() });
-  //       console.log(`${doc.id} =>`, doc.data());
-  //     });
-
-  //     return posts;
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
 
   const posts = useSelector((state) => state.posts);
 
@@ -40,16 +18,18 @@ export default PostsScreen = ({ route }) => {
     dispatch(getAllPosts());
   }, [dispatch]);
 
-  // useEffect(() => {
-  //   if (posts.length !== 0 && !route.params) return;
+  const sortByDate = (posts) => {
+    const postsCopy = [...posts];
 
-  //   (async () => {
-  //     const posts = await getAllPosts();
-  //     if (posts.length === 0) return;
+    return postsCopy.length > 1
+      ? postsCopy.sort((a, b) => {
+          const dateA = a.data.createdAt;
+          const dateB = b.data.createdAt;
 
-  //     setPosts(posts);
-  //   })();
-  // }, []);
+          return dateSorting(dateA, dateB, true);
+        })
+      : posts;
+  };
 
   return (
     <View style={styles.container}>
@@ -65,7 +45,7 @@ export default PostsScreen = ({ route }) => {
           <Text style={styles.email}>{email}</Text>
         </View>
       </View>
-      <PostList posts={posts} defaultText="No posts founded" />
+      <PostList posts={sortByDate(posts)} defaultText="No posts founded" />
     </View>
   );
 };
