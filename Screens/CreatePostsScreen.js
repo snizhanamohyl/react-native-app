@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import { StyleSheet, Text, View, TextInput } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import * as Location from "expo-location";
 
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
-import { db, storage } from "../firebase/config";
+import { storage } from "../firebase/config";
 
 import Button from "../components/Button";
 import CameraWrap from "../components/CameraWrap";
 
 import { uriToBlob } from "../helpers/uriToBlob";
+import { addNewPost } from "../redux/posts/postsOperations";
 
 export default CreatePostsScreen = () => {
   const [hasLocPermission, setHasLocPermission] = useState(null);
@@ -24,6 +24,7 @@ export default CreatePostsScreen = () => {
   const user = useSelector((state) => state.auth.user);
 
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     (async () => {
@@ -47,17 +48,6 @@ export default CreatePostsScreen = () => {
       await uploadBytes(imgRef, file);
 
       return await getDownloadURL(imgRef);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const uploadPost = async (data) => {
-    try {
-      await addDoc(collection(db, "posts"), {
-        ...data,
-        createdAt: serverTimestamp(),
-      });
     } catch (error) {
       console.log(error);
     }
@@ -91,7 +81,7 @@ export default CreatePostsScreen = () => {
       userId: user.uid,
     };
 
-    await uploadPost(postData);
+    dispatch(addNewPost(postData));
 
     navigation.navigate("Posts", postData);
 
