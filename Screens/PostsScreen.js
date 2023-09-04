@@ -1,10 +1,11 @@
 import { useEffect } from "react";
 import { StyleSheet, View, Image, Text } from "react-native";
-
 import { useDispatch, useSelector } from "react-redux";
-import { getAllPosts } from "../redux/posts/postsOperations";
-import PostList from "../components/PostList";
+
 import { defaultAvatar } from "../constants/defaultAvatar";
+import PostList from "../components/PostList";
+
+import { getAllPosts } from "../redux/posts/postsOperations";
 import { dateSorting } from "../helpers/dateSorting";
 
 export default PostsScreen = () => {

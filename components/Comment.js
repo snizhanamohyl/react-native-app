@@ -1,6 +1,6 @@
 import { Text, View, Image, StyleSheet } from "react-native";
-import { monthNames } from "../constants/months";
 import { useSelector } from "react-redux";
+import { monthNames } from "../constants/months";
 import { defaultAvatar } from "../constants/defaultAvatar";
 
 export default Comment = ({ comment }) => {

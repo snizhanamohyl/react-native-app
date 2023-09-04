@@ -2,7 +2,6 @@ export const uriToBlob = (uri) => {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     xhr.onload = function () {
-      // return the blob
       resolve(xhr.response);
     };
     xhr.onerror = function () {

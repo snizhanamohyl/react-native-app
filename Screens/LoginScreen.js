@@ -1,11 +1,13 @@
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { StyleSheet, Text, View } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+
 import Title from "../components/Title";
 import StartInput from "../components/StartInput";
 import Button from "../components/Button";
-import { useState } from "react";
-import { useNavigation } from "@react-navigation/native";
+
 import { login } from "../redux/auth/authOperations";
-import { useDispatch } from "react-redux";
 
 export default function LoginScreen({ setIsKeyboardShown }) {
   const [email, setEmail] = useState("");

@@ -17,7 +17,6 @@ import postsSlice from "./posts/postsSlice";
 const authPersistConfig = {
   key: "auth",
   storage: AsyncStorage,
-  // whitelist: ['token'],
 };
 
 const reducer = {

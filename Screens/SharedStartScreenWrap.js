@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   StyleSheet,
   View,
@@ -9,7 +10,6 @@ import {
 } from "react-native";
 import LoginScreen from "./LoginScreen";
 import RegistrationScreen from "./RegistrationScreen";
-import { useState } from "react";
 
 export const SharedStartScreenWrap = ({ isLogin }) => {
   const [isKeyboardShown, setIsKeyboardShown] = useState(false);

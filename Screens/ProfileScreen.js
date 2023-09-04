@@ -1,4 +1,5 @@
-import { EvilIcons, Feather } from "@expo/vector-icons";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   View,
   Image,
@@ -6,21 +7,22 @@ import {
   ImageBackground,
   StyleSheet,
 } from "react-native";
-import Title from "../components/Title";
-import { useDispatch, useSelector } from "react-redux";
-import { logout, update } from "../redux/auth/authOperations";
-import { selectUserPosts } from "../redux/selectors";
-import PostList from "../components/PostList";
-import { defaultAvatar } from "../constants/defaultAvatar";
-import { useEffect, useState } from "react";
+import { EvilIcons, Feather } from "@expo/vector-icons";
 import {
   MediaTypeOptions,
   launchImageLibraryAsync,
   requestMediaLibraryPermissionsAsync,
 } from "expo-image-picker";
-import { uriToBlob } from "../helpers/uriToBlob";
+
+import PostList from "../components/PostList";
+import Title from "../components/Title";
+
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "../firebase/config";
+import { selectUserPosts } from "../redux/selectors";
+import { logout, update } from "../redux/auth/authOperations";
+import { defaultAvatar } from "../constants/defaultAvatar";
+import { uriToBlob } from "../helpers/uriToBlob";
 
 export default ProfileScreen = () => {
   const [hasGalleryPermission, setHasGalleryPermission] = useState(false);

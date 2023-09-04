@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, initializeFirestore } from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
 
 import { getStorage } from "firebase/storage";
 import { getAnalytics } from "firebase/analytics";
@@ -22,14 +22,6 @@ const app = initializeApp(firebaseConfig);
 export const auth = initializeAuth(app, {
   persistence: getReactNativePersistence(AsyncStorage),
 });
-
-// const firestoreSettings = {
-//   // useFetchStreams: false,
-//   experimentalForceLongPolling: true,
-//   // merge: true,
-// };
-
-// export const db = initializeFirestore(app, firestoreSettings);
 
 export const db = getFirestore(app);
 export const storage = getStorage(app);

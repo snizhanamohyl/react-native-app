@@ -1,9 +1,10 @@
+import { useEffect, useState } from "react";
+import { StyleSheet, View, Image, Text } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+
 import { collection, getCountFromServer } from "firebase/firestore";
-import { StyleSheet, View, Image, Text } from "react-native";
 import { db } from "../firebase/config";
-import { useEffect, useState } from "react";
 
 export default Post = ({ post }) => {
   const [commentsNumber, setCommentsNumber] = useState(0);

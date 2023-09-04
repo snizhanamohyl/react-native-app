@@ -12,7 +12,6 @@ import Header from "./Header";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase/config";
 import { updateAuthState } from "../redux/auth/authSlice";
-import { getAllPosts } from "../redux/posts/postsOperations";
 
 const AuthStack = createStackNavigator();
 const MainTab = createBottomTabNavigator();

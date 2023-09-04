@@ -1,5 +1,4 @@
 import { View, Image, TextInput, FlatList, StyleSheet } from "react-native";
-import Button from "../components/Button";
 import { Feather } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -9,8 +8,11 @@ import {
   getDocs,
   serverTimestamp,
 } from "firebase/firestore";
-import { db } from "../firebase/config";
+
+import Button from "../components/Button";
 import Comment from "../components/Comment";
+
+import { db } from "../firebase/config";
 import { dateSorting } from "../helpers/dateSorting";
 
 export default CommentsScreen = ({ route }) => {

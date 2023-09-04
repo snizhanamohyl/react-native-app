@@ -90,15 +90,3 @@ export const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
     return thunkAPI.rejectWithValue(error.message);
   }
 });
-
-// export const register =
-//   ({ email, password, name }) =>
-//   async (dispatch, getState) => {
-//     try {
-//       //   console.log(email);
-//       const user = await createUserWithEmailAndPassword(auth, email, password);
-//       console.log("🚀 ~ file: authOperations.js:22 ~ user:", user);
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   };

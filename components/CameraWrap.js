@@ -1,10 +1,10 @@
-import { MaterialIcons } from "@expo/vector-icons";
-import { Camera } from "expo-camera";
 import { useEffect, useState } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Camera } from "expo-camera";
+import { MaterialIcons } from "@expo/vector-icons";
 import * as MediaLibrary from "expo-media-library";
 
-export default CameraWrap = ({ photo, setPhoto, checkIfDisabled }) => {
+export default CameraWrap = ({ photo, setPhoto }) => {
   const [hasPermission, setHasPermission] = useState(null);
   const [cameraRef, setCameraRef] = useState(null);
   const [isCameraReady, setIsCameraReady] = useState(false);
@@ -22,7 +22,6 @@ export default CameraWrap = ({ photo, setPhoto, checkIfDisabled }) => {
       const { uri } = await cameraRef.takePictureAsync();
 
       setPhoto(uri);
-      // await MediaLibrary.createAssetAsync(uri);
     }
   };
 
